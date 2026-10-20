@@ -1,0 +1,16 @@
+{
+  "name": "calorie-tracker",
+  "private": true,
+  "description": "Plate: a calorie and macro tracker built with React, Node.js, Express and PostgreSQL",
+  "scripts": {
+    "setup": "npm install && npm install --prefix server && npm install --prefix client",
+    "db:up": "docker compose up -d db",
+    "db:migrate": "npm run db:migrate --prefix server",
+    "db:seed": "npm run db:seed --prefix server",
+    "dev": "concurrently -n api,web -c green,blue \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix server && npm run build --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/*
+  Plate design tokens.
+  Macro colors are a validated categorical palette (colorblind-checked in both modes):
+  protein = green, carbs = blue, fat = amber. Every macro also carries a text label.
+*/
+:root {
+  --surface: #f4f6f1;
+  --raised: #ffffff;
+  --sunken: #e8ece4;
+  --line: #dce2d8;
+  --ink: #1b2620;
+  --ink-soft: #4a5850;
+  --ink-muted: #6b7a70;
+  --brand: #24563a;
+  --brand-ink: #ffffff;
+  --protein: #2f7a4a;
+  --carbs: #3d6fbf;
+  --fat: #b4741a;
+  --over: #b3361f;
+  --focus: #3d6fbf;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #141a16;
+    --raised: #1c241f;
+    --sunken: #222b25;
+    --line: #2f3a33;
+    --ink: #e9efe9;
+    --ink-soft: #bac6bd;
+    --ink-muted: #8d9b91;
+    --brand: #5fb37e;
+    --brand-ink: #0f1a13;
+    --protein: #3e9a64;
+    --carbs: #5b8dd8;
+    --fat: #c2862a;
+    --over: #f07a62;
+    --focus: #8ab4f0;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-protein: var(--protein);
+  --color-carbs: var(--carbs);
+  --color-fat: var(--fat);
+  --color-over: var(--over);
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.num {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
