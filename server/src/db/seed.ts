@@ -1,10 +1,10 @@
 /**
  * Seeds a starter set of common foods so search works even before you add a USDA key.
  * Values are approximate, based on USDA FoodData Central reference entries.
- * Run with: npm run db:seed   (safe to re-run; existing rows are updated)
+ * Used by `npm run db:seed` and automatically by `npm start` (see migrate.ts).
  */
 import { sql } from "drizzle-orm";
-import { db, pool, schema } from "./index.js";
+import { db, schema } from "./index.js";
 
 type SeedFood = [key: string, name: string, size: number, unit: string, kcal: number, p: number, c: number, f: number];
 
@@ -43,7 +43,8 @@ const SEED: SeedFood[] = [
   ["coffee-black", "Coffee, black", 1, "cup (240 ml)", 2, 0.3, 0, 0],
 ];
 
-async function main() {
+/** Inserts or updates the built-in foods. Safe to run any number of times. */
+export async function seedFoods() {
   const rows = SEED.map(([key, name, servingSize, servingUnit, calories, protein, carbs, fat]) => ({
     source: "SEED" as const,
     externalId: key,
@@ -72,12 +73,5 @@ async function main() {
       },
     });
 
-  console.log(`Seeded ${rows.length} common foods.`);
-  await pool.end();
+  return rows.length;
 }
-
-main().catch(async (err) => {
-  console.error(err);
-  await pool.end();
-  process.exit(1);
-});

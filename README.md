@@ -89,6 +89,30 @@ All routes except auth require `Authorization: Bearer <token>`.
 | GET / PUT | `/api/goals` | Read / update daily goals |
 | GET | `/api/stats/range?end=YYYY-MM-DD&days=7` | Daily totals, zero-filled |
 
+## Deploy (free): Neon + Render
+
+In production the Express server also serves the built React app, so the whole project is **one web service on one URL**. On every start it applies pending migrations and loads the built-in foods (`server/src/db/migrate.ts`), so there are no manual database steps.
+
+1. **Database:** create a free project at [neon.com](https://neon.com) and copy its connection string.
+2. **Code:** push this folder to a GitHub repository.
+3. **App:** on [render.com](https://render.com), create a **Web Service** from the repo with:
+
+   | Setting | Value |
+   |---|---|
+   | Build command | `npm run render-build` |
+   | Start command | `npm start` |
+   | Instance type | Free |
+
+   and these environment variables:
+
+   | Key | Value |
+   |---|---|
+   | `DATABASE_URL` | the Neon connection string |
+   | `JWT_SECRET` | a long random string |
+   | `USDA_API_KEY` | your USDA key (or `DEMO_KEY`) |
+
+Free-tier note: Render puts the service to sleep after 15 minutes without traffic, and the first visit afterwards takes about a minute to wake it up.
+
 ## Useful scripts
 
 | Where | Command | What it does |
@@ -97,6 +121,7 @@ All routes except auth require `Authorization: Bearer <token>`.
 | root | `npm run build` | Production build of both |
 | server | `npm run db:generate` | Create a migration after editing `src/db/schema.ts` |
 | server | `npm run db:studio` | Browse the database in Drizzle Studio |
+| root | `npm start` | Production: set up the database, then serve API + app on one port |
 | client | `npm run lint` | Lint the front end |
 
 ## Ideas for next steps
